@@ -1,0 +1,41 @@
+import classNames from 'classnames/bind';
+import styles from './Video.module.scss';
+
+const cx = classNames.bind(styles);
+
+function Video() {
+  //   const [data, setData] = useState({});
+  //   const { uuid } = useParams();
+  //   useEffect(() => {
+  //     const getUser = async () => {
+  //       const result = await videoService.getAVideo(uuid);
+  //       setData(result);
+  //     };
+  //     getUser();
+  //   }, [uuid]);
+
+  //   const [ratioVideo, setRatioVideo] = useState();
+
+  //   useEffect(() => {
+  //     const ratio = data.meta.video.resolution_x / data.meta.video.resolution_y;
+  //     setRatioVideo(ratio);
+  //   }, [data]);
+
+  //   const sizeVideo = styles.sizeVideo;
+  return (
+    <div className={cx('wrapper')}>
+      {/* <div
+        className={cx('video-container')}
+        style={{
+          width: ratioVideo < 1 ? `calc(${sizeVideo}*${ratioVideo})` : '',
+          height: ratioVideo > 1 ? `calc(${sizeVideo}/${ratioVideo})` : '',
+        }}
+      >
+        <video src={data.file_url} className={cx('video-player')} loop muted={true} />
+      </div> */}
+      VideoPage
+    </div>
+  );
+}
+
+export default Video;

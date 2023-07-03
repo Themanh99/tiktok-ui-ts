@@ -3,7 +3,9 @@ import styles from './Video.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Video() {
+export interface IVideoPageProps {}
+
+const Video: React.FunctionComponent<IVideoPageProps> = (props) => {
   //   const [data, setData] = useState({});
   //   const { uuid } = useParams();
   //   useEffect(() => {
@@ -36,6 +38,6 @@ function Video() {
       VideoPage
     </div>
   );
-}
+};
 
 export default Video;

@@ -1,7 +1,17 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { IPropRoute, publicRoutes } from './routes';
 
-const App: React.FC = () => {
-  return <div className="App">Rewwork again tiktok app</div>;
-};
+function App() {
+  return (
+    <div className="App">
+      <Routes>
+        {publicRoutes.map((route: IPropRoute, index) => {
+          return <Route key={index} {...route} />;
+        })}
+      </Routes>
+    </div>
+  );
+}
 
 export default App;

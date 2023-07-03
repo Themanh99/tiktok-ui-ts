@@ -7,7 +7,3 @@ export interface IRoutesPath {
   live: string;
   video: string;
 }
-
-export interface IPrivateRoutes {
-  path: string;
-}

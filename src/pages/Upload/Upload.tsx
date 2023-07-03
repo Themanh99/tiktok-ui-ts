@@ -1,9 +1,9 @@
-function Upload() {
-  return (
-    <div>
-      <h2>Upload page</h2>
-    </div>
-  );
-}
+// @flow
+import * as React from 'react';
+export interface IUploadPageProps {}
+
+const Upload: React.FunctionComponent<IUploadPageProps> = (props) => {
+  return <div>Upload</div>;
+};
 
 export default Upload;

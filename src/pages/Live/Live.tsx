@@ -1,7 +1,9 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
+export interface ILivePageProps {}
 
-function Live() {
-  return <h1>Live page</h1>;
-}
+const Live: React.FunctionComponent<ILivePageProps> = (props) => {
+  return <div>Live</div>;
+};
 
 export default Live;

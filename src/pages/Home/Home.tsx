@@ -4,13 +4,15 @@ import styles from './Home.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Home() {
+export interface IHomePageProps {}
+
+const Home: React.FunctionComponent<IHomePageProps> = (props) => {
   return (
     <div className={cx('wrapper')} style={{ paddingTop: 24, paddingBottom: 24, paddingLeft: 16, paddingRight: 16 }}>
       {/* <WrapperVideos />  */}
       HomePage
     </div>
   );
-}
+};
 
 export default Home;

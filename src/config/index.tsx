@@ -1,6 +1,6 @@
-import routes from './routes';
+import routesPath from './routesPath';
 
 const config = {
-    routes
-}
+  routesPath,
+};
 export default config;

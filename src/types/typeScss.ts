@@ -10,5 +10,5 @@ export interface IIcons {
 }
 
 export type IChildren = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };

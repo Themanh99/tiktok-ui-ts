@@ -10,6 +10,8 @@ import Search from './pages/Search/Search';
 import Profile from './pages/Profile/Profile';
 import HeaderOnly from './components/layouts/HeaderOnly/HeaderOnly';
 import DefaultLayout from './components/layouts/DefaultLayout/DefaultLayout';
+import { useDarkMode } from './hooks/useDarkMode';
+import { DarkTheme, LightTheme } from './constants/ThemeConstants';
 
 export interface IRoutes {
   path: string;
@@ -17,6 +19,7 @@ export interface IRoutes {
   layout?: JSX.Element;
 }
 function App() {
+  const [theme, toggleTheme] = useDarkMode();
   const listParams = [
     {
       element: <Home />,
@@ -48,6 +51,7 @@ function App() {
       path: routesPath.video,
     },
   ];
+
   const renderMultiRoutes = (params: IRoutes[]) =>
     params.map((item, index) => {
       let Layout = DefaultLayout;
@@ -56,11 +60,15 @@ function App() {
       }
       return <Route key={index} path={item.path} element={<Layout>{item.element}</Layout>} />;
     });
+  let Theme = LightTheme;
+  if (theme === 'dark') Theme = DarkTheme;
 
   return (
-    <div className="App">
-      <Routes>{renderMultiRoutes(listParams)}</Routes>
-    </div>
+    <Theme>
+      <div className="App">
+        <Routes>{renderMultiRoutes(listParams)}</Routes>
+      </div>
+    </Theme>
   );
 }
 

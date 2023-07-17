@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from '../Button/Button.module.scss';
+import styles from './Button.module.scss';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -38,7 +38,6 @@ function Button(props: IButtonData) {
     lefticon,
     righticon,
     onClick,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ...moreProps
   } = props;
   let Comp: React.ElementType = 'button';
@@ -63,20 +62,18 @@ function Button(props: IButtonData) {
     data.href = href;
     Comp = 'a';
   }
-
   const classes = cx('wrapper', {
     className,
     primary,
     outline,
     text,
-    disabled,
     rounded,
     small,
     large,
   });
 
   return (
-    <Comp className={classes} {...props}>
+    <Comp className={classes} {...moreProps}>
       {lefticon && <span className={cx('icon')}>{lefticon}</span>}
       <span className={cx('title')}>{children}</span>
       {righticon && <span className={cx('icon')}>{righticon}</span>}

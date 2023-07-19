@@ -12,6 +12,7 @@ import HeaderOnly from './components/layouts/HeaderOnly/HeaderOnly';
 import DefaultLayout from './components/layouts/DefaultLayout/DefaultLayout';
 import { useDarkMode } from './hooks/useDarkMode';
 import { DarkTheme, LightTheme } from './constants/ThemeConstants';
+import { MenuItemProvider } from './contexts/MenuItemContext';
 
 export interface IRoutes {
   path: string;
@@ -65,9 +66,11 @@ function App() {
 
   return (
     <Theme>
-      <div className="App">
-        <Routes>{renderMultiRoutes(listParams)}</Routes>
-      </div>
+      <MenuItemProvider>
+        <div className="App">
+          <Routes>{renderMultiRoutes(listParams)}</Routes>
+        </div>
+      </MenuItemProvider>
     </Theme>
   );
 }

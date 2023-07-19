@@ -1,42 +1,67 @@
-import classNames from 'classnames/bind';
-import React, { useEffect, useState, useRef } from 'react';
-import styles from '../Header/Header.module.scss';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ITEMS_LOGIN, ITEMS_NOT_LOGIN } from '../../../constants/MenuItemConstants';
-import config from '../../../config';
+import classNames from 'classnames/bind';
+import styles from '../Header/Header.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react';
+import { MenuItemContext } from '../../../contexts/MenuItemContext';
+import config from '../../../config';
+import { ITEMS_LOGIN, ITEMS_NOT_LOGIN } from '../../../constants/MenuItemConstants';
 import { InboxIcon, LogoSvg, MessageIcon, UploadIcon } from '../../../components/Icons/Icons';
 import Search from '../../Search/Search';
 import Button from '../../Button/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import Menu from '../../Popper/Menu/Menu';
+import Image from '../../Image/Image';
 
 const cx = classNames.bind(styles);
 export default function Header(): JSX.Element {
-  const [currentuser, setCurrentuser] = useState(false);
+  const [currentuser, setCurrentuser] = useState<boolean>(false);
+  const { updateMenuItem } = useContext(MenuItemContext);
+
+  useEffect(() => {
+    if (currentuser) {
+      updateMenuItem(ITEMS_NOT_LOGIN);
+    } else {
+      updateMenuItem(ITEMS_LOGIN);
+    }
+  }, [currentuser, updateMenuItem]);
 
   const handleLogin = () => {
-    if (currentuser) {
-      setCurrentuser(false);
-    }
     if (!currentuser) {
       setCurrentuser(true);
+    } else {
+      setCurrentuser(false);
     }
   };
-  let first = ITEMS_NOT_LOGIN;
-  useEffect(() => {
-    console.log('re- render header', currentuser);
-    if (currentuser) {
-      first = ITEMS_LOGIN;
-    } else if (!currentuser) {
-      first = ITEMS_NOT_LOGIN;
+  // handle for menuitem when click
+  const handleMenuChange = (menuItem: any) => {
+    switch (menuItem.id) {
+      case 1:
+        switch (menuItem.type) {
+          case 'language':
+            console.log('change language');
+            break;
+          default:
+        }
+        break;
+      case 2:
+        console.log('change mode');
+        break;
+      case 3:
+        console.log('change keyboard mode');
+        break;
+      case 4:
+        console.log('change dark mode');
+        break;
+      default:
     }
-  }, [currentuser]);
+  };
+
   return (
     <header className={cx('wrapper')}>
       <div className={cx('inner')}>
-        <div className={cx('logo')} onClick={handleLogin}>
+        <div className={cx('logo')}>
           <Link to={config.routesPath.home} className={cx('logo-link')}>
             <LogoSvg />
           </Link>
@@ -48,7 +73,7 @@ export default function Header(): JSX.Element {
           {currentuser ? (
             <>
               <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
-                <button className={cx('action-btn')}>
+                <button className={cx('action-btn')} onClick={handleLogin}>
                   <UploadIcon />
                 </button>
               </Tippy>
@@ -63,22 +88,29 @@ export default function Header(): JSX.Element {
                   <span className={cx('badge')}>12</span>
                 </button>
               </Tippy>
+              <Menu onChange={handleMenuChange}>
+                <Image
+                  className={cx('user-avatar')}
+                  src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/42a81079b5885e152707b170d63ba2df~c5_100x100.jpeg?x-expires=1689962400&x-signature=2emKhMTm5JAv8tSQYFs3Jp87cJQ%3D"
+                  alt={'X'}
+                />
+              </Menu>
             </>
           ) : (
             <>
-              <Button text="true" onClick={() => alert('Upload')}>
+              <Button text="true" onClick={() => alert('upload page')}>
                 UpLoad
               </Button>
-              <Button primary="true" onClick={() => alert('Login')}>
+              <Button primary="true" onClick={handleLogin}>
                 Log in
               </Button>
+              <Menu onChange={handleMenuChange}>
+                <button className={cx('more-btn')}>
+                  <FontAwesomeIcon icon={faEllipsisVertical} />
+                </button>
+              </Menu>
             </>
           )}
-          <Menu items={first}>
-            <button className={cx('more-btn')}>
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </button>
-          </Menu>
         </div>
       </div>
     </header>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { Wrapper as PopperWrapper } from '../index';
@@ -6,6 +6,7 @@ import styles from '../Menu/Menu.module.scss';
 import Tippy from '@tippyjs/react/headless';
 import MenuItem from './MenuItem';
 import HeaderMenu from './HeaderMenu';
+import { MenuItemContext } from '../../../contexts/MenuItemContext';
 
 const cx = classNames.bind(styles);
 const defaultFn = () => {};
@@ -22,11 +23,12 @@ interface ISubItems {
 }
 
 export interface MenuItemType {
-  icon: JSX.Element;
-  title: string;
+  icon?: JSX.Element;
+  title?: string;
   subitem?: ISubItems;
   to?: string;
   separate?: boolean;
+  id?: number;
 }
 
 interface IMenuProps {
@@ -36,11 +38,35 @@ interface IMenuProps {
   onChange?: (item: any) => void;
 }
 
-function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn }: IMenuProps) {
-  const [history, setHistory] = useState([{ data: items }]);
+function Menu({ children, items, hideOnClick = false, onChange = defaultFn }: IMenuProps) {
+  const { itemMenu } = useContext(MenuItemContext);
+  const [history, setHistory] = useState([{ data: itemMenu }]);
   const current = history[history.length - 1];
+
+  //reset menu item when out focus
+  const handleResetToFirstMenu = () => {
+    setHistory((prev) => prev.slice(0, 1));
+  };
+
   const renderItems = () => {
-    return current.data.map((item, index) => <MenuItem key={index} data={item} />);
+    if (current.data === undefined) return;
+    return current.data.map((item, index) => {
+      const isParent = !!item.subitem;
+
+      return (
+        <MenuItem
+          key={index}
+          data={item}
+          onClick={() => {
+            if (isParent) {
+              setHistory((prev: any[]) => [...prev, item?.subitem]);
+            } else {
+              onChange(item);
+            }
+          }}
+        />
+      );
+    });
   };
 
   return (
@@ -49,15 +75,15 @@ function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn 
       offset={[12, 8]}
       interactive
       hideOnClick={hideOnClick}
+      onHide={handleResetToFirstMenu}
       placement="bottom-end"
-      // visible
       arrow={true}
       render={(attrs) => (
         <div className={cx('menu-lists')} tabIndex={-1} {...attrs}>
           <PopperWrapper className={cx('menu-popper')}>
-            {history.length > 1 && (
+            {history.length > 1 && current.data && (
               <HeaderMenu
-                title={current.data[0].title}
+                title={current.data[0].title || ''}
                 onBack={() => {
                   setHistory((prev) => prev.slice(0, prev.length - 1));
                 }}

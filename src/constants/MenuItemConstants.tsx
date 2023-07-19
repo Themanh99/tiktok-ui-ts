@@ -34,19 +34,23 @@ const ITEMS_NOT_LOGIN = [
         },
       ],
     },
+    id: 1,
   },
   {
     icon: <FontAwesomeIcon icon={faCircleQuestion} />,
     title: 'Feedback and help',
     to: '/feedback',
+    id: 2,
   },
   {
     icon: <FontAwesomeIcon icon={faKeyboard} />,
     title: 'Keyboard shortcuts',
+    id: 3,
   },
   {
     icon: <FontAwesomeIcon icon={faMoon} />,
     title: 'Dark mode',
+    id: 4,
   },
 ];
 
@@ -55,16 +59,19 @@ const ITEMS_LOGIN = [
     icon: <FontAwesomeIcon icon={faUser} />,
     title: 'View profile',
     to: `/@`,
+    id: 5,
   },
   {
     icon: <FontAwesomeIcon icon={faCoins} />,
     title: 'Get coins',
     to: '/coin',
+    id: 5,
   },
   {
     icon: <FontAwesomeIcon icon={faGear} />,
     title: 'Settings',
     to: '/settings',
+    id: 6,
   },
   ...ITEMS_NOT_LOGIN,
   {
@@ -72,6 +79,7 @@ const ITEMS_LOGIN = [
     title: 'Log out',
     to: '/',
     separate: true,
+    id: 7,
   },
 ];
 

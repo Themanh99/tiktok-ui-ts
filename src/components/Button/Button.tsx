@@ -41,29 +41,23 @@ function Button(props: IButtonData) {
     ...moreProps
   } = props;
   let Comp: React.ElementType = 'button';
-  const data = {
-    onClick,
-    ...props,
-  };
 
   // Remove event listener when btn is disabled
   if (disabled) {
-    Object.keys(data).forEach((key) => {
+    Object.keys(props).forEach((key) => {
       if (key.startsWith('on') || typeof key === 'function') {
-        delete data[key as keyof IButtonData];
+        delete props[key as keyof IButtonData];
       }
     });
   }
 
   if (to) {
-    data.to = to;
     Comp = Link;
   } else if (href) {
-    data.href = href;
     Comp = 'a';
   }
   const classes = cx('wrapper', {
-    className,
+    [className as string]: className,
     primary,
     outline,
     text,
@@ -73,7 +67,7 @@ function Button(props: IButtonData) {
   });
 
   return (
-    <Comp className={classes} {...moreProps}>
+    <Comp className={classes} {...moreProps} onClick={onClick}>
       {lefticon && <span className={cx('icon')}>{lefticon}</span>}
       <span className={cx('title')}>{children}</span>
       {righticon && <span className={cx('icon')}>{righticon}</span>}
